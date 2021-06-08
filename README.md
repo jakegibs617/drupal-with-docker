@@ -2,7 +2,7 @@
 how to get up and running with Drupal on a Docker image
 
 
-How to Docker Drupal
+## Basic Setup Drupal with Docker
 
 
 1. Set up mysql db
