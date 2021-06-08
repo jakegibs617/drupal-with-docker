@@ -7,7 +7,7 @@ How to Docker Drupal
 
 1. Set up mysql db
     
-    ➜  ~ docker run -d --name veracode2_dev -e MYSQL_ROOT_PASSWORD=password mysql:latest
+    ➜  ~ docker run -d --name mysqldb -e MYSQL_ROOT_PASSWORD=password mysql:latest
 
     verify :
     
@@ -15,27 +15,27 @@ How to Docker Drupal
 	
    | CONTAINER ID | IMAGE | COMMAND | CREATED | STATUS | PORTS | NAMES |
    | --- | --- | --- | --- | --- | --- | --- |
-   | f70a31c5eb02 | mysql:latest | "docker-entrypoint.s…" | 44 seconds ago | Up 43 seconds | 3306/tcp, 33060/tcp | veracode2_dev |
+   | f70a31c5eb02 | mysql:latest | "docker-entrypoint.s…" | 44 seconds ago | Up 43 seconds | 3306/tcp, 33060/tcp | mysqldb |
 
 2. create a container for Drupal
 
-    ➜  ~ docker run -d --name drupal --link veracode2_dev -p 8080:80 -e MYSQL_USER:root -e MYSQL_PASSWORD:password drupal
+    ➜  ~ docker run -d --name drupal --link mysqldb -p 8080:80 -e MYSQL_USER:root -e MYSQL_PASSWORD:password drupal
 	
     ➜  ~ docker ps
 
     | CONTAINER ID | IMAGE | COMMAND | CREATED | STATUS | PORTS | NAMES |
     | --- | --- | --- | --- | --- | --- | --- |
     |38b87f3b04d9   |drupal_dev        | "docker-php-entrypoi…"   |About a minute ago  | Up About a minute |  0.0.0.0:8080->80/tcp  | drupal|
-    |f70a31c5eb02   |mysql:latest  | "docker-entrypoint.s…"  | 5 minutes ago       | Up 5 minutes       | 3306/tcp, 33060/tcp  |  veracode2_dev|
+    |f70a31c5eb02   |mysql:latest  | "docker-entrypoint.s…"  | 5 minutes ago       | Up 5 minutes       | 3306/tcp, 33060/tcp  |  mysqldb|
 
 	http://localhost:8080
 	returns http://localhost:8080/core/install.php 
 	
 3. Set the advanced options 
-	database name: veracode2_dev
+	database name: mysqldb
 	database username: root
 	database password: password
-	host: veracode2_dev
+	host: mysqldb
 	port 3306
 
 4. now you are up and running with Drupal on Docker!
@@ -84,7 +84,7 @@ How to Docker Drupal
 	| ca12608e80c3  | wodby/mariadb:10.5-3.12.5         | "/docker-entrypoint.…"  | 2 minutes ago  | Up 2 minutes |  3306/tcp             |  my_drupal9_project_mariadb |
 	| f4e1f70306a3  | mailhog/mailhog                   | "MailHog"               | 2 minutes ago  | Up 2 minutes |  1025/tcp, 8025/tcp   |  my_drupal9_project_mailhog |
 	| 347bf8011439  | drupal                            | "docker-php-entrypoi…"  | 4 hours ago    | Up 4 hours   |  0.0.0.0:8080->80/tcp |  drupal |
-	| 08f092e14699  | mysql:latest                      | "docker-entrypoint.s…"  | 4 hours ago    | Up 4 hours   |  3306/tcp, 33060/tcp  |  veracode2_dev |
+	| 08f092e14699  | mysql:latest                      | "docker-entrypoint.s…"  | 4 hours ago    | Up 4 hours   |  3306/tcp, 33060/tcp  |  mysqldb |
 
 
 3. you are now up and running at drupal.docker.localhost:8000/
